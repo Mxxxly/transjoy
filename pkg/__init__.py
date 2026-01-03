@@ -12,6 +12,13 @@ def create_app():
     from pkg.user import userobj
     from pkg.api import apiobj
     from pkg.agent import agentobj
+    from pkg.auth import authobj
+    from pkg.payments import paymentobj
+    from pkg.tracking import trackingobj
+    from pkg.shipment import shipmentobj
+
+     #create the Flask app instance
+     #instance_relative_config=True means config file is relative to instance folder
 
     app = Flask(__name__,instance_relative_config=True)
 
@@ -20,6 +27,10 @@ def create_app():
     app.register_blueprint(adminobj)
     app.register_blueprint(apiobj)
     app.register_blueprint(agentobj)
+    app.register_blueprint(authobj)
+    app.register_blueprint(paymentobj)
+    app.register_blueprint(shipmentobj)
+    app.register_blueprint(trackingobj)
 
     
     app.config.from_pyfile('config.py',silent=True)

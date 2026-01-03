@@ -77,8 +77,8 @@ def not_found(error):
         
 
 
-    data2send={"status":True,"msg":f"A new chef with id has been added","data":data} #work on this
-    return jsonify(data2send)
+    # data2send={"status":True,"msg":f"A new chef with id has been added","data":data} #work on this
+    # return jsonify(data2send)
 
 
 # converting to json 
