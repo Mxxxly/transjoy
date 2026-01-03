@@ -1,12 +1,12 @@
-# Transjoy – Logistics & Parcel Delivery Platform
+# JoyXpress – Logistics & Parcel Delivery Platform
 
-Transjoy is a **full-stack logistics application** built with **Flask** that allows users to send parcels across cities and states using buses, bikes, and other road-based transport. It features real-time parcel tracking, automated agent assignment, and a clean, scalable backend architecture using **divisional blueprints**.  
+JoyXpress is a **full-stack logistics application** built with **Flask** that allows users to send parcels across cities and states using buses, bikes, and other road-based transport. It features real-time parcel tracking, automated agent assignment, and a clean, scalable backend architecture using **divisional blueprints**.  
 
 This project is designed to demonstrate **advanced Flask skills, modular architecture, and real-world logistics workflows**, making it ideal for your portfolio or a production-ready system.
 
 ---
 
-## 🚀 Features
+##  Features
 
 ### User Features
 - Sign up, login, and manage profile
@@ -33,21 +33,11 @@ This project is designed to demonstrate **advanced Flask skills, modular archite
 
 ---
 
-## 🏗 Architecture
+## Architecture
 
 Transjoy follows a **modular divisional blueprint structure** in Flask:
 
-PKG/
-├── auth/ # Authentication (users, agents, admins)
-├── users/ # User (sender) actions and services
-├── agents/ # Agent (rider/driver) actions and services
-├── shipments/ # Shipment management and tracking
-├── payments/ # Payment processing and post-payment logic
-├── tracking/ # Public shipment tracking
-├── admin/ # Admin dashboard and management
-├── templates/ # HTML templates
-└── static/ # CSS, JS, assets
-
+Transjoy is organized using a modular divisional blueprint structure in Flask. The application is grouped into clearly defined packages, each responsible for a specific domain of the system. Authentication handles access for users, agents, and administrators. User modules manage sender-related actions and services. Agent modules control rider and driver operations. Shipment modules handle parcel creation, tracking, and status management. Payment modules are responsible for payment processing and post-payment workflows. The tracking module provides public access for parcel tracking using tracking IDs. Administrative modules oversee system management and supervision. Templates store the HTML views used across the application, while static files contain CSS, JavaScript, and other assets used for styling and interactivity.
 
 
 **Models include:**
@@ -59,7 +49,7 @@ The system follows **services.py** separation, ensuring business logic is decoup
 
 ---
 
-## 📦 Tech Stack
+## Tech Stack
 
 - **Backend:** Python, Flask, SQLAlchemy, Flask-Migrate  
 - **Frontend:** HTML5, CSS3, Bootstrap (or your chosen template)  
@@ -80,7 +70,7 @@ The system follows **services.py** separation, ensuring business logic is decoup
 
 ---
 
-## 💡 Key Learnings / Skills Demonstrated
+##  Key Learnings / Skills Demonstrated
 
 - Flask **divisional blueprint architecture**  
 - Clean separation: **routes → services → models**  
@@ -91,9 +81,9 @@ The system follows **services.py** separation, ensuring business logic is decoup
 
 ---
 
-## 📂 Getting Started
+##  Getting Started
 
 1. **Clone the repository:**
 ```bash
-git clone https://github.com/YourUsername/transjoy.git
-cd transjoy
+git clone https://github.com/YourUsername/JoyXpress.git
+cd JoyXpress

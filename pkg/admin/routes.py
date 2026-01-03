@@ -9,3 +9,5 @@ def home():
 @adminobj.route('/dashboard/')
 def dashboard():
     return render_template('admin/dashboard.html')
+
+
