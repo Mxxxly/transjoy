@@ -1,0 +1,6 @@
+.env
+trans_joy/config.py
+instance/
+__pycache__/
+*.pyc
+venv/
