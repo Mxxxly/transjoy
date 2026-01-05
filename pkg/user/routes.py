@@ -8,4 +8,5 @@ def home():
 
 @userobj.get('/signup/')
 def signup():
+    
     return render_template('user/signup.html')
