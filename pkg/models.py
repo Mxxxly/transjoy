@@ -2,23 +2,23 @@ from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
-
 class User(db.Model):
-
-
     id = db.Column(db.Integer, primary_key=True)
+
     full_name = db.Column(db.String(120), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     phone = db.Column(db.String(20), nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
 
-    city = db.Column(db.String(100), nullable=False)
-    state = db.Column(db.String(100), nullable=False)
+    state_id = db.Column(db.Integer, db.ForeignKey('state.id'), nullable=False)
+    city_id = db.Column(db.Integer, db.ForeignKey('city.id'), nullable=False)
 
     is_active = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, default=db.func.now())
 
     shipments = db.relationship('Shipment', backref='user', lazy=True)
+    state = db.relationship('State')
+    city = db.relationship('City')
 
 
 class Agent(db.Model):
@@ -117,3 +117,16 @@ class ShipmentStatusHistory(db.Model):
     created_at = db.Column(db.DateTime, default=db.func.now())
 
     shipment = db.relationship('Shipment', backref='status_history')
+
+
+class State(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), unique=True, nullable=False)
+
+    cities = db.relationship('City', backref='state', lazy=True)
+
+
+class City(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    state_id = db.Column(db.Integer, db.ForeignKey('state.id'), nullable=False)
