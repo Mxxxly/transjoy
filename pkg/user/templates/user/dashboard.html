@@ -1,1 +1,249 @@
-{% include "includes/header.html" %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>JoyXpress - User Dashboard</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Logistics User Dashboard" name="keywords">
+    <meta content="User dashboard for managing shipments and account" name="description">
+
+    <link href="{{ url_for('static', filename='img/favicon.ico') }}" rel="icon">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <link href="{{ url_for('static', filename='lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    </head>
+
+<body>
+    <div class="container-fluid bg-dark">
+        <div class="row py-2 px-lg-5">
+            <div class="col-lg-6 text-center text-lg-left mb-2 mb-lg-0">
+                <div class="d-inline-flex align-items-center text-white">
+                    <small><i class="fa fa-phone-alt mr-2"></i>+234 7039853440</small>
+                    <small class="px-3">|</small>
+                    <small><i class="fa fa-envelope mr-2"></i>tomideerinola@gmail.com</small>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center text-lg-right">
+                <div class="d-inline-flex align-items-center">
+                    <a class="text-white px-2" href=""><i class="fab fa-facebook-f"></i></a>
+                    <a class="text-white px-2" href=""><i class="fab fa-twitter"></i></a>
+                    <a class="text-white px-2" href=""><i class="fab fa-linkedin-in"></i></a>
+                    <a class="text-white px-2" href=""><i class="fab fa-instagram"></i></a>
+                    <a class="text-white pl-2" href=""><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid p-0">
+        <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-lg-5">
+            <a href="{{ url_for('home_page') }}" class="navbar-brand ml-lg-3">
+                <h1 class="m-0 display-5 text-primary"><i class="fa fa-truck mr-2"></i>JoyXpress</h1>
+            </a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between px-lg-3" id="navbarCollapse">
+                <div class="navbar-nav m-auto py-0">
+                    <a href="{{ url_for('home_page') }}" class="nav-item nav-link">Home</a>
+                    <a href="about.html" class="nav-item nav-link">About</a>
+                    <a href="service.html" class="nav-item nav-link">Service</a>
+                    <a href="price.html" class="nav-item nav-link">Price</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
+                        <div class="dropdown-menu rounded-0 m-0">
+                            <a href="blog.html" class="dropdown-item">Blog Grid</a>
+                            <a href="single.html" class="dropdown-item">Blog Detail</a>
+                        </div>
+                    </div>
+                    <a href="contact.html" class="nav-item nav-link">Contact</a>
+                    
+                    {% if session.get('useronline') %}
+                        <a href="{{ url_for('bpuser.dashboard') }}" class="nav-item nav-link active">Dashboard</a>
+                    {% endif %}
+                </div>
+                
+                <div class="d-flex align-items-center">
+                    {% if user_id %}
+                        <div class="nav-item dropdown d-none d-lg-block">
+                            <a href="#" class="btn btn-secondary py-2 px-4 dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-user-circle mr-1"></i> {{ u.full_name }}
+                            </a>
+                            <div class="dropdown-menu rounded-0 m-0 dropdown-menu-right">
+                                <a href="{{ url_for('bpuser.dashboard') }}" class="dropdown-item active">Dashboard</a>
+                                <a href="#" class="dropdown-item">Settings</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="{{ url_for('bpuser.logout') }}" class="dropdown-item text-danger">Logout</a>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('bpuser.logout') }}" class="btn btn-danger py-2 px-4 d-lg-none">Logout</a>
+                    {% else %}
+                        <a href="{{ url_for('bpuser.signup') }}" class="btn btn-primary py-2 px-4 d-none d-lg-block mx-2">Register</a>
+                        <a href="{{ url_for('bpuser.login') }}" class="btn btn-primary py-2 px-4 d-none d-lg-block">Login</a>
+                    {% endif %}
+                </div>
+                </div>
+        </nav>
+    </div>
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h1 class="display-4 text-primary">
+                        <i class="fa fa-tachometer-alt mr-2"></i> Dashboard
+                    </h1>
+                    <p class="lead text-muted">Welcome back,{{ u.full_name }}! Manage your shipments here.</p>
+                </div>
+            </div>
+            
+            <div class="row pb-3">
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="bg-light p-4 shadow-sm border-left border-primary border-4 rounded h-100">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="text-uppercase text-primary mb-1">Total Shipments</h5>
+                                <h1 class="display-4 font-weight-bold">
+                                    {{ u.shipments|length if u.shipments is defined else 0 }}
+                                </h1>
+                            </div>
+                            <i class="fa fa-box-open fa-3x text-primary"></i>
+                        </div>
+                        <a href="#" class="text-muted small mt-2 d-block">View Shipment History</a>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="bg-light p-4 shadow-sm border-left border-warning border-4 rounded h-100">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="text-uppercase text-warning mb-1">In Transit / Pending</h5>
+                                <h1 class="display-4 font-weight-bold text-dark">5</h1>
+                            </div>
+                            <i class="fa fa-shipping-fast fa-3x text-warning"></i>
+                        </div>
+                        <a href="#" class="text-muted small mt-2 d-block">Track Latest Packages</a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-12 mb-4">
+                    <div class="bg-light p-4 shadow-sm border-left border-success border-4 rounded h-100">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="text-uppercase text-success mb-1">Account Status</h5>
+                                <h4 class="font-weight-bold text-dark">{{ 'Active' if u.is_active else 'Inactive' }}</h4>
+                                <small class="text-muted">Member Since: {{ u.created_at.strftime('%Y-%m-%d') }}</small>
+                            </div>
+                            <i class="fa fa-check-circle fa-3x text-success"></i>
+                        </div>
+                        <a href="#" class="text-muted small mt-2 d-block">Update Profile</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-5 justify-content-center">
+                <div class="col-lg-10 col-md-12">
+                    <form method="GET" action="{{ url_for('bpuser.track_shipment') }}">
+                        <div class="mx-auto" style="width: 100%; max-width: 650px;">
+                            <div class="input-group shadow-sm">
+                                <input type="text" name="tracking_id" class="form-control border-light" style="padding: 25px; border-right: none;" placeholder="Enter Shipment Tracking ID" required>
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-primary px-4"><i class="fa fa-search mr-1"></i> Track & Trace</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+
+            <div class="row pt-3">
+                
+                <div class="col-lg-6 mb-4">
+                    <div class="card shadow border-0 h-100">
+                        <div class="card-header bg-primary text-white">
+                            <h4 class="mb-0"><i class="fa fa-bolt mr-2"></i> Quick Actions</h4>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text text-muted">What would you like to do right now?</p>
+                            <a href="{{ url_for('bpshipment.new_shipment') }}" class="btn btn-outline-primary btn-lg btn-block mb-3">
+                                <i class="fa fa-plus-circle mr-2"></i> Create New Shipment
+                            </a>
+                            <a href="#" class="btn btn-outline-secondary btn-lg btn-block mb-3">
+                                <i class="fa fa-search-location mr-2"></i> Track a Package
+                            </a>
+                            <a href="#" class="btn btn-outline-info btn-lg btn-block">
+                                <i class="fa fa-file-invoice-dollar mr-2"></i> View Billing
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 mb-4">
+                    <div class="card shadow border-0 h-100">
+                        <div class="card-header bg-secondary text-white">
+                            <h4 class="mb-0"><i class="fa fa-list mr-2"></i> Latest Shipments</h4>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#00101</td>
+                                        <td>2026-01-05</td>
+                                        <td><span class="badge badge-warning">In Transit</span></td>
+                                        <td><a href="#" class="btn btn-sm btn-outline-primary">Details</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>#00100</td>
+                                        <td>2026-01-01</td>
+                                        <td><span class="badge badge-success">Delivered</span></td>
+                                        <td><a href="#" class="btn btn-sm btn-outline-primary">Details</a></td>
+                                    </tr>
+                                    {% if u.shipments|length == 0 %}
+                                    <tr>
+                                        <td colspan="4" class="text-center text-muted">No shipments found. Start a new one!</td>
+                                    </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="container-fluid bg-dark text-white border-top py-4" style="border-color: rgba(256, 256, 256, .1) !important;">
+        </div>
+    <a href="#" class="btn btn-lg btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+
+    <script src="{{ url_for('static', filename='lib/easing/easing.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/waypoints/waypoints.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/counterup/counterup.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/owlcarousel/owl.carousel.min.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='mail/jqBootstrapValidation.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='mail/contact.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+
+</html>

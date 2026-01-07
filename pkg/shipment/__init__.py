@@ -1,5 +1,5 @@
 from flask import Blueprint
-shipmentobj = Blueprint('bpshipment',__name__,url_prefix='/shipment/v1')
+shipmentobj = Blueprint('bpshipment',__name__,template_folder='templates',static_folder='static',url_prefix='/shipment')
 
 # to make the local routes available
 

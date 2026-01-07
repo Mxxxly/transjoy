@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Tracking Results - {{ shipment.tracking_number }}</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Shipment Tracking Status" name="keywords">
+
+    <link href="{{ url_for('static', filename='img/favicon.ico') }}" rel="icon">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+
+    <style>
+        /* Custom CSS for a professional tracking timeline */
+        .tracking-timeline {
+            position: relative;
+            padding-left: 20px;
+        }
+        .tracking-timeline:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: #e9ecef;
+            z-index: 1;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding-left: 20px;
+            z-index: 2;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: -10px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #007bff; /* Primary color */
+            border: 3px solid #fff;
+            z-index: 3;
+        }
+        .timeline-item.delivered::before {
+            background: #28a745; /* Success color for delivered */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-12 text-center">
+                    <h1 class="display-4 text-primary"><i class="fa fa-map-marker-alt mr-2"></i> Shipment Tracking</h1>
+                    <p class="lead text-muted">Status for Tracking ID: **{{ shipment.tracking_number }}**</p>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                
+                <div class="col-lg-5 mb-4">
+                    <div class="card shadow border-0 h-100">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Shipment Summary</h5>
+                        </div>
+                        <div class="card-body">
+                            <h2 class="card-title text-uppercase mb-4">Current Status: 
+                                <span class="badge 
+                                    {% if shipment.status == 'delivered' %}badge-success
+                                    {% elif shipment.status == 'in transit' %}badge-warning
+                                    {% else %}badge-secondary
+                                    {% endif %}
+                                ">{{ shipment.status }}</span>
+                            </h2>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><strong>Origin:</strong> {{ shipment.pickup_city }}, {{ shipment.pickup_state }}</li>
+                                <li class="list-group-item"><strong>Destination:</strong> {{ shipment.delivery_city }}, {{ shipment.delivery_state }}</li>
+                                <li class="list-group-item"><strong>Receiver:</strong> {{ shipment.receiver_name }} ({{ shipment.receiver_phone }})</li>
+                                <li class="list-group-item"><strong>Weight/Type:</strong> {{ shipment.package_weight }} kg / {{ shipment.delivery_type }}</li>
+                                <li class="list-group-item"><strong>Total Amount:</strong> <i class="fa fa-naira-sign"></i>{{ "{:,.2f}".format(shipment.calculated_amount) }}</li>
+                                <li class="list-group-item"><strong>Agent Assigned:</strong> {{ shipment.agent.full_name if shipment.agent else 'Pending Assignment' }}</li>
+                            </ul>
+                            
+                            <a href="{{ url_for('bpuser.dashboard') }}" class="btn btn-outline-primary btn-block mt-4">Return to Dashboard</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-7 mb-4">
+                    <div class="card shadow border-0 h-100">
+                        <div class="card-header bg-secondary text-white">
+                            <h5 class="mb-0">Tracking History (Timeline)</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="tracking-timeline">
+                                {% for status in history %}
+                                    <div class="timeline-item {% if status.status == 'delivered' %}delivered{% endif %}">
+                                        <h6 class="font-weight-bold text-primary mb-1">{{ status.status|capitalize }}</h6>
+                                        <small class="text-muted d-block">{{ status.created_at.strftime('%b %d, %Y - %I:%M %p') }}</small>
+                                        <p class="mb-0 mt-1">Location: {{ status.location or 'N/A' }}</p>
+                                        {% if status.note %}<small class="text-info">Note: {{ status.note }}</small>{% endif %}
+                                    </div>
+                                {% endfor %}
+
+                                {% if not history %}
+                                    <p class="text-muted">No status updates yet. Please check back later.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <a href="#" class="btn btn-lg btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='lib/easing/easing.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/waypoints/waypoints.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/counterup/counterup.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/owlcarousel/owl.carousel.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='mail/jqBootstrapValidation.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='mail/contact.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+
+</html>
