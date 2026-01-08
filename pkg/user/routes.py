@@ -75,14 +75,34 @@ def login():
 
 @userobj.route('/dashboard/')
 def dashboard():
-    user_id= session.get('useronline')
-    u= User.query.get(user_id)
-    user = User.query.all()
-    if not u:
-        flash("You must be logged in as an User to access this page.", "warning")
+    user_id = session.get('useronline')
+
+    if not user_id:
+        flash("You must be logged in to access the dashboard.", "warning")
         return redirect(url_for('bpuser.login'))
 
-    return render_template('user/dashboard.html',user=user,user_id=user_id,u=u)  # create this template
+    # Fetch the logged-in user
+    u = User.query.get(user_id)
+    if not u:
+        flash("User not found. Please log in again.", "danger")
+        return redirect(url_for('bpuser.logout'))
+
+    # Fetch all shipments for this user, most recent first
+    shipments = Shipment.query.filter_by(user_id=user_id).order_by(Shipment.created_at.desc()).all()
+
+    # Calculate some stats
+    total_shipments = len(shipments)
+    active_shipments = [s for s in shipments if s.status.lower() in ('pending', 'in transit')]
+
+    return render_template(
+        'user/dashboard.html',
+        u=u,  # logged-in user object
+        shipments=shipments,
+        total_shipments=total_shipments,
+        active_shipments=len(active_shipments),
+        user_id=user_id
+    )
+
 
 
 @userobj.route('/logout/')
