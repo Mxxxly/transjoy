@@ -3,7 +3,13 @@
 <div class="container py-5">
     <div class="card shadow-lg border-0">
         <div class="card-body text-center py-5">
-
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} text-center">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
             <h1 class="text-success mb-3">Payment Successful 🎉</h1>
 
             <p class="lead">

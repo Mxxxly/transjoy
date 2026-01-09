@@ -98,7 +98,7 @@
                     <h1 class="display-4 text-primary">
                         <i class="fa fa-tachometer-alt mr-2"></i> Dashboard
                     </h1>
-                    <p class="lead text-muted">Welcome back,{{ u.full_name }}! Manage your shipments here.</p>
+                    <p class="lead text-muted">Welcome back,{{ u.full_name|capitalize  }}! Manage your shipments here.</p>
                 </div>
             </div>
             
@@ -215,7 +215,7 @@
         {% endif %}
     </td>
     <td>
-        <a href=""
+        <a href="{{url_for('bpshipment.shipment_details', shipment_id=s.id)}}"
            class="btn btn-sm btn-outline-primary">
             Details
         </a>

@@ -94,7 +94,7 @@
                     {% if user_id %}
                         <div class="nav-item dropdown d-none d-lg-block">
                             <a href="#" class="btn btn-secondary py-2 px-4 dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-user-circle mr-1"></i> {{ u.full_name }}
+                                <i class="fa fa-user-circle mr-1"></i> {{u.full_name|capitalize  }}
                             </a>
                             <div class="dropdown-menu rounded-0 m-0 dropdown-menu-right">
                                 <a href="{{ url_for('bpuser.dashboard') }}" class="dropdown-item active">Dashboard</a>

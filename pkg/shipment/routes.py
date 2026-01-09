@@ -23,9 +23,7 @@ def new_shipment():
     
     if form.validate_on_submit():
         
-        # --- SERVER-SIDE RATE CALCULATION (Happens ONLY on final form submission) ---
-        
-        # We use form.data directly since form.validate_on_submit() passed
+
         try:
             rates = calculate_rate(
                 pickup_city_id=form.pickup_city.data,
@@ -83,7 +81,7 @@ def new_shipment():
             db.session.add(new_shipment)
             db.session.commit()
             
-            flash(f'Shipment **{tracking_id}** created successfully. Proceed to payment.', 'success')
+            flash(f'Shipment {tracking_id} created successfully. Proceed to payment.', 'success')
             return redirect(url_for('bpshipment.confirmation', shipment_id=new_shipment.id))
             
         except Exception as e:
@@ -145,4 +143,25 @@ def confirmation(shipment_id):
         shipment=shipment,
         u=u,
         title="Confirm Order"
+    )
+
+
+@shipmentobj.route('/<int:shipment_id>')
+def shipment_details(shipment_id):
+    user_id = session.get('useronline')
+    if not user_id:
+        flash("Please log in to view shipment details.", "warning")
+        return redirect(url_for('bpuser.login'))
+
+    shipment = Shipment.query.get_or_404(shipment_id)
+
+    # Security check
+    if shipment.user_id != user_id:
+        flash("You are not allowed to view this shipment.", "danger")
+        return redirect(url_for('bpuser.dashboard'))
+
+    return render_template(
+        'shipment/details.html',
+        shipment=shipment,
+        title="Shipment Details"
     )

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <h4 class="mb-3">Shipment Details</h4>
+
+            <p><strong>Tracking Number:</strong> {{ shipment.tracking_number }}</p>
+            <p><strong>Status:</strong>
+                <span class="badge bg-info text-dark">{{ shipment.status|capitalize }}</span>
+            </p>
+
+            <hr>
+
+            <h5>Sender → Receiver</h5>
+            <p>
+                <strong>Pickup:</strong>
+                {{ shipment.pickup_address }},
+                {{ shipment.pickup_city }},
+                {{ shipment.pickup_state }}
+            </p>
+
+            <p>
+                <strong>Delivery:</strong>
+                {{ shipment.delivery_address }},
+                {{ shipment.delivery_city }},
+                {{ shipment.delivery_state }}
+            </p>
+
+            <hr>
+
+            <h5>Package Info</h5>
+            <p><strong>Weight:</strong> {{ shipment.package_weight }} kg</p>
+            <p><strong>Delivery Type:</strong> {{ shipment.delivery_type }}</p>
+            <p><strong>Distance:</strong> {{ shipment.distance_km }} km</p>
+
+            <hr>
+
+            <h5>Payment</h5>
+            <p><strong>Amount:</strong> ₦{{ "{:,.2f}".format(shipment.calculated_amount) }}</p>
+
+            {% if shipment.status == 'pending' %}
+                <a href="{{ url_for('bppayment.initiate_payment', shipment_id=shipment.id) }}"
+                   class="btn btn-primary mt-3">
+                    Proceed to Payment
+                </a>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}

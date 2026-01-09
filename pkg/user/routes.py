@@ -129,62 +129,29 @@ def logout():
 
 
 
-@userobj.route('/track', methods=['GET'])
+@userobj.route('/track-shipment')
 def track_shipment():
-    """Handles the tracking ID submission and redirects to the results page."""
-    
-    # 1. Get the tracking ID from the URL parameters (since method is GET)
     tracking_id = request.args.get('tracking_id')
 
     if not tracking_id:
-        flash("Please enter a valid Tracking ID.", "danger")
-        return redirect(url_for('bpuser.dashboard')) # Send them back if the field was empty
+        flash("Please enter a tracking number.", "warning")
+        return redirect(url_for('bpuser.dashboard'))
 
-    # 2. In a real application, you would query the database here:
-    # shipment = Shipment.query.filter_by(tracking_number=tracking_id).first()
-    
-    # For now, we will assume you have a 'bpuser.tracking_results' page
-    
-    # 3. Redirect to a results page, passing the ID in the URL for the next view to process
-    return redirect(url_for('bpuser.tracking_results', id=tracking_id))
-
-
-@userobj.route('/tracking-results/<string:id>')
-def tracking_results(id):
-    """
-    Fetches shipment details and history based on the tracking ID.
-    The 'id' comes from the track_shipment redirect.
-    """
-    # 1. Fetch the shipment or return 404 if not found
-    shipment = Shipment.query.filter_by(tracking_number=id).first()
+    shipment = Shipment.query.filter_by(tracking_number=tracking_id).first()
 
     if not shipment:
-        flash(f"Shipment with Tracking ID **{id}** not found.", "danger")
-        # Redirect back to the dashboard or a dedicated tracking page
-        return redirect(url_for('bpuser.dashboard')) 
+        flash("No shipment found with that tracking number.", "danger")
+        return redirect(url_for('bpuser.dashboard'))
 
-    # 2. Fetch the detailed history records
-    history = ShipmentStatusHistory.query.filter_by(shipment_id=shipment.id).order_by(
-        ShipmentStatusHistory.created_at.desc() # Display newest status first
-    ).all()
-
-    # 3. Check if the shipment belongs to the current user (if logged in)
-    # Assuming 'u' (current user object) is passed to the template for navbar/header
-    # We fetch it again here to ensure it's available.
+    # Optional: allow only owner to track
     user_id = session.get('useronline')
-    u = User.query.get(user_id) if user_id else None
-
-    # Check ownership for security, although public tracking is common
-    if u and shipment.user_id != u.id:
-        flash("Access Denied: This shipment does not belong to your account.", "danger")
+    if user_id and shipment.user_id != user_id:
+        flash("You are not allowed to view this shipment.", "danger")
         return redirect(url_for('bpuser.dashboard'))
 
     return render_template(
-        'user/tracking_results.html', 
-        shipment=shipment, 
-        history=history,
-        u=u # Pass the user object for the template's navbar/header
+        'shipment/details.html',
+        shipment=shipment,
+        title="Track Shipment"
     )
 
-# Note: Remember to update the 'track_shipment' route to redirect to this
-# return redirect(url_for('bpuser.tracking_results', id=tracking_id))
