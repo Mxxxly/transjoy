@@ -123,7 +123,7 @@ def admin_login():
 def admin_logout():
     if session.get('adminonline')!=None:
         session.pop('adminonline')   
-    return redirect('/admin/login/')
+    return redirect(url_for('bpadmin.admin_login'))
 
 
 @adminobj.route('/shipments')
@@ -213,34 +213,6 @@ def delete_user(user_id):
     flash(f"User {user.full_name} deleted successfully.", "success")
     return redirect(url_for('bpadmin.manage_users'))
 
-
-# SYSTEM STATUS TYPES
-@adminobj.route('/system/statuses', methods=['GET', 'POST'])
-def system_statuses():
-    # Example: manage statuses in the database (you can also hard-code initially)
-    if request.method == "POST":
-        # Handle adding a new status
-        new_status = request.form.get('status_name', '').strip()
-        if new_status:
-            # Check if already exists
-            if StatusType.query.filter_by(name=new_status).first():
-                flash("Status already exists.", "warning")
-            else:
-                st = StatusType(name=new_status)
-                db.session.add(st)
-                db.session.commit()
-                flash("Status added successfully.", "success")
-        return redirect(url_for('bpadmin.system_statuses'))
-
-    # GET: show all statuses
-    statuses = StatusType.query.order_by(StatusType.name).all()
-    return render_template('admin/system_statuses.html', statuses=statuses)
-
-
-@adminobj.route('/delivery-zones')
-def delivery_zones():
-    zones = []  # Replace with Zone.query.all()
-    return render_template('delivery_zones.html', title="Delivery Zones", zones=zones)
 
 @adminobj.route('/agents/', methods=['GET', 'POST'])
 def manage_agents():

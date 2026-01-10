@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask,session
 from flask_wtf.csrf import CSRFProtect
 from flask_migrate import Migrate
 from dotenv import load_dotenv 
@@ -9,7 +9,7 @@ load_dotenv()
 
 def create_app():
     from pkg import config
-    from pkg.models import db #we want app to be aware of db 
+    from pkg.models import db,User,Admin,Agent #we want app to be aware of db 
     #bring in the instances of the Blueprint 
     from pkg.admin import adminobj
     from pkg.user import userobj
@@ -46,7 +46,30 @@ def create_app():
     csrf.exempt(apiobj) #API allow visitation to the routes from any source
     db.init_app(app) #lazy-loading i.e suppling app to SQLALchemy class at a later time
     Migrate(app,db)
+
+    @app.context_processor
+    def inject_logged_in_accounts():
+        user = None
+        agent = None
+        admin = None
+
+        if session.get('useronline'):
+            user = User.query.get(session['useronline'])
+
+        if session.get('agentonline'):
+            agent = Agent.query.get(session['agentonline'])
+
+        if session.get('adminonline'):
+            admin = Admin.query.get(session['adminonline'])
+
+        return dict(
+            user=user,
+            agent=agent,
+            admin=admin
+        )
+    
     return app
+
 
 app = create_app()
 

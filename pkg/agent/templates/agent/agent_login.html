@@ -1,4 +1,32 @@
-{% include "includes/header.html" %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>JoyXpress - Logistics Website </title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+
+<!-- Favicon -->
+<link href="{{ url_for('static', filename='img/favicon.ico') }}" rel="icon">
+
+<!-- Google Web Fonts (external stays the same) -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<!-- Font Awesome (external stays the same) -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+<!-- Libraries Stylesheet -->
+<link href="{{ url_for('static', filename='lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+
+<!-- Customized Bootstrap Stylesheet -->
+<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+
+<body>
 
 <style>
     /* Custom Styles for Staff Login */
@@ -56,7 +84,12 @@
 
 <div class="container login-container">
     <div style="max-width: 450px; width: 100%;">
-        <div class="agent-card">
+        <div class="agent-card">            <div class="d-flex justify-content-between align-items-center mb-4">
+                
+                <a href="{{ url_for('home_page') }}" class="home-link">
+                    <i class="fas fa-home"></i> Home
+                </a>
+            </div>
             <h2 class="text-center">
                 <i class="fas fa-motorcycle login-icon"></i> Staff Login
             </h2>
@@ -101,5 +134,20 @@
         </p>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
 
-{% include "includes/footer.html" %}
+<script src="{{ url_for('static', filename='lib/easing/easing.min.js') }}"></script>
+<script src="{{ url_for('static', filename='lib/waypoints/waypoints.min.js') }}"></script>
+<script src="{{ url_for('static', filename='lib/counterup/counterup.min.js') }}"></script>
+<script src="{{ url_for('static', filename='lib/owlcarousel/owl.carousel.min.js') }}"></script>
+
+<!-- Contact Javascript File -->
+<script src="{{ url_for('static', filename='mail/jqBootstrapValidation.min.js') }}"></script>
+<script src="{{ url_for('static', filename='mail/contact.js') }}"></script>
+
+<!-- Template Javascript -->
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+</html>

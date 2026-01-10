@@ -1,117 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <title>JoyXpress - Logistics Website </title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Free HTML Templates" name="keywords">
-    <meta content="Free HTML Templates" name="description">
-
-
-<!-- Favicon -->
-<link href="{{ url_for('static', filename='img/favicon.ico') }}" rel="icon">
-
-<!-- Google Web Fonts (external stays the same) -->
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-<!-- Font Awesome (external stays the same) -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-
-<!-- Libraries Stylesheet -->
-<link href="{{ url_for('static', filename='lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
-
-<!-- Customized Bootstrap Stylesheet -->
-<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
-</head>
-
-<body>
-    <!-- Topbar Start -->
-    <div class="container-fluid bg-dark">
-        <div class="row py-2 px-lg-5">
-            <div class="col-lg-6 text-center text-lg-left mb-2 mb-lg-0">
-                <div class="d-inline-flex align-items-center text-white">
-                    <small><i class="fa fa-phone-alt mr-2"></i>+234 7039853440</small>
-                    <small class="px-3">|</small>
-                    <small><i class="fa fa-envelope mr-2"></i>tomideerinola@gmail.com</small>
-                </div>
-            </div>
-            <div class="col-lg-6 text-center text-lg-right">
-                <div class="d-inline-flex align-items-center">
-                    <a class="text-white px-2" href="">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a class="text-white px-2" href="">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a class="text-white px-2" href="">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                    <a class="text-white px-2" href="">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a class="text-white pl-2" href="">
-                        <i class="fab fa-youtube"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Topbar End -->
-
-
-    <!-- Navbar Start -->
-    <div class="container-fluid p-0">
-        <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-lg-5">
-            <a href="{{ url_for('bpuser.home') }}" class="navbar-brand ml-lg-3">
-                <h1 class="m-0 display-5 text-primary"><i class="fa fa-truck mr-2"></i>JoyXpress</h1>
-            </a>
-            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-between px-lg-3" id="navbarCollapse">
-                <div class="navbar-nav m-auto py-0">
-                    <a href="{{ url_for('home_page') }}" class="nav-item nav-link">Home</a>
-                    <a href="about.html" class="nav-item nav-link">About</a>
-                    <a href="service.html" class="nav-item nav-link">Service</a>
-                    <a href="price.html" class="nav-item nav-link">Price</a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                        <div class="dropdown-menu rounded-0 m-0">
-                            <a href="blog.html" class="dropdown-item">Blog Grid</a>
-                            <a href="single.html" class="dropdown-item">Blog Detail</a>
-                        </div>
-                    </div>
-                    <a href="contact.html" class="nav-item nav-link">Contact</a>
-                    
-                    {% if session.get('useronline') %}
-                        <a href="{{ url_for('bpuser.dashboard') }}" class="nav-item nav-link active">Dashboard</a>
-                    {% endif %}
-                </div>
-                
-                <div class="d-flex align-items-center">
-                    {% if user_id %}
-                        <div class="nav-item dropdown d-none d-lg-block">
-                            <a href="#" class="btn btn-secondary py-2 px-4 dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-user-circle mr-1"></i> {{u.full_name|capitalize  }}
-                            </a>
-                            <div class="dropdown-menu rounded-0 m-0 dropdown-menu-right">
-                                <a href="{{ url_for('bpuser.dashboard') }}" class="dropdown-item active">Dashboard</a>
-                                <a href="#" class="dropdown-item">Settings</a>
-                                <div class="dropdown-divider"></div>
-                                <a href="{{ url_for('bpuser.logout') }}" class="dropdown-item text-danger">Logout</a>
-                            </div>
-                        </div>
-                        <a href="{{ url_for('bpuser.logout') }}" class="btn btn-danger py-2 px-4 d-lg-none">Logout</a>
-                    {% else %}
-                        <a href="{{ url_for('bpuser.signup') }}" class="btn btn-primary py-2 px-4 d-none d-lg-block mx-2">Register</a>
-                        <a href="{{ url_for('bpuser.login') }}" class="btn btn-primary py-2 px-4 d-none d-lg-block">Login</a>
-                    {% endif %}
-                </div>
-                </div>
-        </nav>
-    </div>
+{%include "includes/header.html"%}
     <!-- Navbar End -->
 
 
@@ -121,12 +8,24 @@
             <h1 class="text-primary mb-4">Safe & Faster</h1>
             <h1 class="text-white display-3 mb-5">Logistics Services</h1>
             <div class="mx-auto" style="width: 100%; max-width: 600px;">
-                <div class="input-group">
-                    <input type="text" class="form-control border-light" style="padding: 30px;" placeholder="Tracking Id">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary px-3">Track & Trace</button>
+                <form method="POST" action="{{ url_for('bpshipment.track_shipment') }}">
+                    <input type="hidden" value="{{csrf_token()}}" name="csrf_token">
+                    <div class="input-group">
+                        <input
+                            type="text"
+                            name="tracking_number"
+                            class="form-control border-light"
+                            style="padding: 30px;"
+                            placeholder="Enter Tracking ID"
+                            required
+                        >
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary px-4">
+                                Track & Trace
+                            </button>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -300,7 +199,7 @@
 
 
     <!-- Pricing Plan Start -->
-    <div class="container-fluid pt-5">
+    <!-- <div class="container-fluid pt-5">
         <div class="container">
             <div class="text-center pb-2">
                 <h6 class="text-primary text-uppercase font-weight-bold">Pricing Plan</h6>
@@ -366,12 +265,12 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Pricing Plan End -->
 
 
     <!-- Team Start -->
-    <div class="container-fluid pt-5">
+    <!-- <div class="container-fluid pt-5">
         <div class="container">
             <div class="text-center pb-2">
                 <h6 class="text-primary text-uppercase font-weight-bold">Delivery Team</h6>
@@ -448,7 +347,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Team End -->
 
 
@@ -456,62 +355,84 @@
     <div class="container-fluid py-5">
         <div class="container">
             <div class="text-center pb-2">
-                <h6 class="text-primary text-uppercase font-weight-bold">Testimonial</h6>
-                <h1 class="mb-4">Our Clients Say</h1>
+                <h6 class="text-primary text-uppercase font-weight-bold">Testimonials</h6>
+                <h1 class="mb-4">What People Say About JoyXpress</h1>
+                <p class="text-muted">
+                    Trusted by individuals and businesses for fast, secure, and reliable deliveries.
+                </p>
             </div>
+    
             <div class="owl-carousel testimonial-carousel">
+                
                 <div class="position-relative bg-secondary p-4">
                     <i class="fa fa-3x fa-quote-right text-primary position-absolute" style="top: -6px; right: 0;"></i>
                     <div class="d-flex align-items-center mb-3">
                         <img class="img-fluid rounded-circle" src="img/testimonial-1.jpg" style="width: 60px; height: 60px;" alt="">
                         <div class="ml-3">
-                            <h6 class="font-weight-semi-bold m-0">Client Name</h6>
-                            <small>- Profession</small>
+                            <h6 class="font-weight-semi-bold m-0">Adebayo Johnson</h6>
+                            <small>- Small Business Owner</small>
                         </div>
                     </div>
-                    <p class="m-0">Sed ea amet kasd elitr stet, stet rebum et ipsum est duo elitr clita lorem. Dolor ipsum sanct clita</p>
+                    <p class="m-0">
+                        JoyXpress has completely changed how I ship products to my customers. 
+                        Deliveries are always on time, and tracking shipments is super easy.
+                    </p>
                 </div>
+    
                 <div class="position-relative bg-secondary p-4">
                     <i class="fa fa-3x fa-quote-right text-primary position-absolute" style="top: -6px; right: 0;"></i>
                     <div class="d-flex align-items-center mb-3">
                         <img class="img-fluid rounded-circle" src="img/testimonial-2.jpg" style="width: 60px; height: 60px;" alt="">
                         <div class="ml-3">
-                            <h6 class="font-weight-semi-bold m-0">Client Name</h6>
-                            <small>- Profession</small>
+                            <h6 class="font-weight-semi-bold m-0">Blessing Okorie</h6>
+                            <small>- Online Store Manager</small>
                         </div>
                     </div>
-                    <p class="m-0">Sed ea amet kasd elitr stet, stet rebum et ipsum est duo elitr clita lorem. Dolor ipsum sanct clita</p>
+                    <p class="m-0">
+                        I love how transparent JoyXpress is. From pickup to delivery, 
+                        I can track everything in real time. Very professional service.
+                    </p>
                 </div>
+    
                 <div class="position-relative bg-secondary p-4">
                     <i class="fa fa-3x fa-quote-right text-primary position-absolute" style="top: -6px; right: 0;"></i>
                     <div class="d-flex align-items-center mb-3">
                         <img class="img-fluid rounded-circle" src="img/testimonial-3.jpg" style="width: 60px; height: 60px;" alt="">
                         <div class="ml-3">
-                            <h6 class="font-weight-semi-bold m-0">Client Name</h6>
-                            <small>- Profession</small>
+                            <h6 class="font-weight-semi-bold m-0">Samuel Adekunle</h6>
+                            <small>- Logistics Partner</small>
                         </div>
                     </div>
-                    <p class="m-0">Sed ea amet kasd elitr stet, stet rebum et ipsum est duo elitr clita lorem. Dolor ipsum sanct clita</p>
+                    <p class="m-0">
+                        As a delivery partner, JoyXpress provides clear shipment details and smooth coordination. 
+                        The system is efficient and well-designed.
+                    </p>
                 </div>
+    
                 <div class="position-relative bg-secondary p-4">
                     <i class="fa fa-3x fa-quote-right text-primary position-absolute" style="top: -6px; right: 0;"></i>
                     <div class="d-flex align-items-center mb-3">
                         <img class="img-fluid rounded-circle" src="img/testimonial-4.jpg" style="width: 60px; height: 60px;" alt="">
                         <div class="ml-3">
-                            <h6 class="font-weight-semi-bold m-0">Client Name</h6>
-                            <small>- Profession</small>
+                            <h6 class="font-weight-semi-bold m-0">Fatima Bello</h6>
+                            <small>- Individual Customer</small>
                         </div>
                     </div>
-                    <p class="m-0">Sed ea amet kasd elitr stet, stet rebum et ipsum est duo elitr clita lorem. Dolor ipsum sanct clita</p>
+                    <p class="m-0">
+                        My package arrived safely and earlier than expected. 
+                        JoyXpress truly delivers peace of mind along with your shipment.
+                    </p>
                 </div>
+    
             </div>
         </div>
     </div>
+    
     <!-- Testimonial End -->
 
 
     <!-- Blog Start -->
-    <div class="container-fluid pt-5">
+    <!-- <div class="container-fluid pt-5">
         <div class="container">
             <div class="text-center pb-2">
                 <h6 class="text-primary text-uppercase font-weight-bold">Our Blog</h6>
@@ -570,145 +491,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Blog End -->
 
-
-<!-- Footer Start -->
-<div class="container-fluid bg-dark text-white mt-5 py-5 px-sm-3 px-md-5">
-    <div class="row pt-5">
-        <!-- Company Info -->
-        <div class="col-lg-7 col-md-6">
-            <div class="row">
-                <div class="col-md-6 mb-5">
-                    <h3 class="text-primary mb-4">Contact Information</h3>
-                    <p>
-                        <i class="fa fa-map-marker-alt mr-2"></i>
-                        Lagos, Nigeria
-                    </p>
-                    <p>
-                        <i class="fa fa-phone-alt mr-2"></i>
-                        +234 703 985 3440
-                    </p>
-                    <p>
-                        <i class="fa fa-envelope mr-2"></i>
-                        michealerinola9@gmail.com
-                    </p>
-
-                    <p class="mt-3">
-                        We provide reliable logistics, parcel delivery, and real-time tracking
-                        solutions designed to move your goods safely and efficiently.
-                    </p>
-
-                    <div class="d-flex justify-content-start mt-4">
-                        <a class="btn btn-outline-light btn-social mr-2" href="#"><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-outline-light btn-social mr-2" href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-outline-light btn-social mr-2" href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-
-                <!-- Quick Links -->
-                <div class="col-md-6 mb-5">
-                    <h3 class="text-primary mb-4">Quick Links</h3>
-                    <div class="d-flex flex-column justify-content-start">
-                        <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Home</a>
-                        <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>About Us</a>
-                        <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Services</a>
-                        <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Track Shipment</a>
-                        <a class="text-white" href="#"><i class="fa fa-angle-right mr-2"></i>Contact</a>
-                        <a class="text-white" href="{{url_for('bpadmin.admin_login')}}"><i class="fa fa-angle-right mr-2"></i>Admin Login</a>
-                        <a class="text-white" href="{{url_for('bpagent.agent_login')}}"><i class="fa fa-angle-right mr-2"></i>Agent Login </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tracking / Updates -->
-        <div class="col-lg-5 col-md-6 mb-5">
-            <h3 class="text-primary mb-4">Shipment Updates</h3>
-            <p>
-                Stay informed about your deliveries. Enter your tracking ID on our platform
-                to view real-time shipment status and delivery progress.
-            </p>
-            <div class="w-100">
-                <div class="input-group">
-                    <input type="text" class="form-control border-light" style="padding: 30px;" placeholder="Your Email Address">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary px-4">Sign Up</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Bottom Footer -->
-<div class="container-fluid bg-dark text-white border-top py-4 px-sm-3 px-md-5"
-     style="border-color: #3E3E4E !important;">
-    <div class="row">
-        <div class="col-lg-6 text-center text-md-left mb-3 mb-md-0">
-            <p class="m-0 text-white">
-                &copy; <a href="#" class="text-primary">JoyXpress Logistics</a>. All Rights Reserved.
-                <br>
-                Designed by <a href="https://portfolio.com">Tomide</a> 
-            </p>
-        </div>
-
-        <div class="col-lg-6 text-center text-md-right">
-            <ul class="nav d-inline-flex">
-                <li class="nav-item">
-                    <a class="nav-link text-white py-0" href="#">Privacy Policy</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white py-0" href="#">Terms of Service</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white py-0" href="#">Support</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
-<!-- Footer End -->
-
-
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
-
-<!-- JavaScript Libraries -->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-
-<script src="{{ url_for('static', filename='lib/easing/easing.min.js') }}"></script>
-<script src="{{ url_for('static', filename='lib/waypoints/waypoints.min.js') }}"></script>
-<script src="{{ url_for('static', filename='lib/counterup/counterup.min.js') }}"></script>
-<script src="{{ url_for('static', filename='lib/owlcarousel/owl.carousel.min.js') }}"></script>
-
-<!-- Contact Javascript File -->
-<script src="{{ url_for('static', filename='mail/jqBootstrapValidation.min.js') }}"></script>
-<script src="{{ url_for('static', filename='mail/contact.js') }}"></script>
-
-<!-- Template Javascript -->
-<script src="{{ url_for('static', filename='js/main.js') }}"></script>
-
-
-
-
-    <!-- JavaScript Libraries -->
-    <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/counterup/counterup.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script> -->
-
-    <!-- Contact Javascript File -->
-    <!-- <script src="mail/jqBootstrapValidation.min.js"></script>
-    <script src="mail/contact.js"></script> -->
-
-    <!-- Template Javascript -->
-    <!-- <script src="js/main.js"></script> -->
-</body>
-
-</html>
+ {%include 'includes/footer.html'%}

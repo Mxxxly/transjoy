@@ -211,3 +211,51 @@ def shipment_history():
         shipments=shipments,
         title="Shipment History"
     )
+
+
+@shipmentobj.route('/track/<string:tracking_number>')
+def public_shipment_tracking(tracking_number):
+    """
+    Public route to view shipment details by tracking number (for guests and agents).
+    Does NOT require login.
+    """
+    # Use filter_by because tracking_number is a string, then use first_or_404
+    shipment = Shipment.query.filter_by(tracking_number=tracking_number).first_or_404()
+    back_url = request.referrer or url_for('bpuser.home')
+    
+    # Check if payment is pending and redirect to confirmation page for payment
+    if shipment.status == 'pending':
+        # If the user is logged in, redirect them to the secure confirmation page
+        user_id = session.get('useronline')
+        if user_id:
+            return redirect(url_for('bpshipment.confirmation', shipment_id=shipment.id))
+        
+        # If the user is a guest, they see a public payment required message on this tracking page
+        
+    return render_template(
+        'shipment/public_tracking.html',
+        shipment=shipment,
+        title=f"Tracking: {tracking_number}",back_url=back_url
+    )
+
+
+@shipmentobj.route('/track', methods=['POST'])
+def track_shipment():
+    tracking_number = request.form.get('tracking_number')
+
+    if not tracking_number:
+        flash('Please enter a tracking number.', 'warning')
+        return redirect(url_for('bpuser.home'))
+
+    shipment = Shipment.query.filter_by(tracking_number=tracking_number).first()
+
+    if not shipment:
+        flash('Shipment not found. Please check the tracking number.', 'danger')
+        return redirect(url_for('bpuser.home'))
+
+    return redirect(
+        url_for(
+            'bpshipment.public_shipment_tracking',
+            tracking_number=tracking_number
+        )
+    )
