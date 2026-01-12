@@ -8,7 +8,7 @@
         <div class="container text-center py-5">
             <h1 class="text-white display-3">Service</h1>
             <div class="d-inline-flex align-items-center text-white">
-                <p class="m-0"><a class="text-white" href="">Home</a></p>
+                <p class="m-0"><a class="text-white" href="{{ url_for('home_page') }}">Home</a></p>
                 <i class="fa fa-circle px-3"></i>
                 <p class="m-0">Service</p>
             </div>
@@ -95,72 +95,69 @@
 
 
     <!--  Quote Request Start -->
-    <div class="container-fluid bg-secondary my-5">
-        <div class="container">
+    <div class="cta-section">
+        <div class="container py-5">
             <div class="row align-items-center">
+                <!-- Left CTA Card -->
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div class="cta-content">
+                        <h1 class="cta-title">
+                            Ship Smarter, Deliver Faster
+                        </h1>
+                        
+                        <p class="cta-description">
+                            Experience seamless logistics with real-time tracking, instant quotes, 
+                            and secure payments all in one platform.
+                        </p>
     
-                <!-- Left Content -->
-                <div class="col-lg-7 py-5 py-lg-0">
-                    <h6 class="text-primary text-uppercase font-weight-bold">Send With Confidence</h6>
-                    <h1 class="mb-4">Fast & Reliable Delivery Across the City</h1>
-    
-                    <p class="mb-4">
-                        JoyXpress makes deliveries simple and stress-free. From instant order creation
-                        to real-time tracking and secure payments, we ensure your packages get to their
-                        destination quickly and safely.
-                    </p>
-    
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <h1 class="text-primary mb-2" data-toggle="counter-up">500</h1>
-                            <h6 class="font-weight-bold mb-4">Completed Deliveries</h6>
-                        </div>
-                        <div class="col-sm-4">
-                            <h1 class="text-primary mb-2" data-toggle="counter-up">150</h1>
-                            <h6 class="font-weight-bold mb-4">Verified Agents</h6>
-                        </div>
-                        <div class="col-sm-4">
-                            <h1 class="text-primary mb-2" data-toggle="counter-up">98</h1>
-                            <h6 class="font-weight-bold mb-4">On-Time Delivery Rate</h6>
+                        <div class="cta-buttons">
+                            <a href="{{ url_for('bpuser.signup') }}" class="btn btn-cta-primary">
+                                <i class="fas fa-rocket"></i>
+                                Get Started
+                            </a>
+                            <a href="{{ url_for('bpuser.login') }}" class="btn btn-cta-secondary">
+                                Sign In
+                            </a>
                         </div>
                     </div>
                 </div>
     
-                <!-- Right Form -->
-                <div class="col-lg-5">
-                    <div class="bg-primary py-5 px-4 px-sm-5">
-                        <form class="py-5">
-                            <div class="form-group">
-                                <input type="text" class="form-control border-0 p-4"
-                                    placeholder="Full Name" required />
+                <!-- Right Stats -->
+                <div class="col-lg-6">
+                    <div class="row g-3">
+                        <div class="col-4">
+                            <div class="stats-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-box"></i>
+                                </div>
+                                <div class="stat-number">2.5K+</div>
+                                <div class="stat-label">Deliveries</div>
                             </div>
-    
-                            <div class="form-group">
-                                <input type="email" class="form-control border-0 p-4"
-                                    placeholder="Email Address" required />
+                        </div>
+                        <div class="col-4">
+                            <div class="stats-card">
+                                <div class="stat-icon" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="stat-number">500+</div>
+                                <div class="stat-label">Customers</div>
                             </div>
-    
-                            <div class="form-group">
-                                <select class="custom-select border-0 px-4" style="height: 47px;">
-                                    <option selected>Select Delivery Type</option>
-                                    <option value="same-day">Same-Day Delivery</option>
-                                    <option value="express">Express Delivery</option>
-                                    <option value="scheduled">Scheduled Delivery</option>
-                                </select>
+                        </div>
+                        <div class="col-4">
+                            <div class="stats-card">
+                                <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="stat-number">98%</div>
+                                <div class="stat-label">On-Time</div>
                             </div>
-    
-                            <div>
-                                <button class="btn btn-dark btn-block border-0 py-3" type="submit">
-                                    Request Delivery
-                                </button>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
-    
             </div>
         </div>
     </div>
+    
     <!-- Quote Request end -->
 
 

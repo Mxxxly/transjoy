@@ -1,6 +1,14 @@
 {% include "includes/header.html" %}
 <div class="container mt-5" style="max-width: 500px;">
-    <h2 class="text-center mb-4">Login</h2>
+    <div class="text-center mb-4">
+        <a href="{{ url_for('home_page') }}" class="navbar-brand">
+            <h3 class="m-0 text-center text-primary">
+                <i class="fas fa-shipping-fast me-1"></i> JoyXpress
+            </h3>
+        </a>
+        <h5 class="text-center mt-3 mb-0 text-dark fw-bold">Login to Your Account</h5>
+        <p class="text-muted small">Access your delivery dashboard.</p>
+    </div>
 
     <!-- Flash Messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}

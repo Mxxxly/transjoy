@@ -1,6 +1,6 @@
 {% include "includes/header.html" %}
 <div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
-    <div class="card shadow-lg rounded-lg" style="max-width: 480px; width: 100%;">
+    <div class="card shadow-lg rounded-lg" style="max-width: 480px; width: 100%; " >
         <div class="card-body p-4">
             {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -9,77 +9,91 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-            <h3 class="text-center mb-4">Create Your Account</h3>
+        <div class="text-center mb-4">
+            <a href="{{ url_for('home_page') }}" class="navbar-brand">
+                <h3 class="m-0 text-center text-primary">
+                    <i class="fas fa-shipping-fast me-1"></i> JoyXpress
+                </h3>
+            </a>
+            <h5 class="text-center mt-3 mb-0 text-dark fw-bold">Register for JoyXpress</h5>
+            <p class="text-muted small">Start your journey into a wonderful Experience.</p>
+        </div>
+    
 
-            <form method="POST" action="{{ url_for('bpuser.signup') }}">
-                {{ form.hidden_tag() }}
-
-                <!-- Full Name -->
-                <div class="mb-3">
-                    {{ form.full_name.label(class="form-label") }}
-                    {{ form.full_name(class="form-control", placeholder="Enter your full name") }}
-                    {% for error in form.full_name.errors %}
-                        <small class="text-danger">{{ error }}</small>
-                    {% endfor %}
-                </div>
-
-                <!-- Email -->
-                <div class="mb-3">
+        <form method="POST" action="{{ url_for('bpuser.signup') }}">
+            {{ form.hidden_tag() }}
+        
+            <div class="mb-3">
+                {{ form.full_name.label(class="form-label") }}
+                {{ form.full_name(class="form-control", placeholder="Enter your full name") }}
+                {% for error in form.full_name.errors %}
+                    <small class="text-danger d-block mt-1">{{ error }}</small>
+                {% endfor %}
+            </div>
+        
+            <div class="row">
+                <div class="col-md-6 mb-3">
                     {{ form.email.label(class="form-label") }}
                     {{ form.email(class="form-control", placeholder="Enter your email") }}
                     {% for error in form.email.errors %}
-                        <small class="text-danger">{{ error }}</small>
+                        <small class="text-danger d-block mt-1">{{ error }}</small>
                     {% endfor %}
                 </div>
-
-                <!-- Phone -->
-                <div class="mb-3">
+                
+                <div class="col-md-6 mb-3">
                     {{ form.phone.label(class="form-label") }}
                     {{ form.phone(class="form-control", placeholder="Enter your phone number") }}
                     {% for error in form.phone.errors %}
-                        <small class="text-danger">{{ error }}</small>
+                        <small class="text-danger d-block mt-1">{{ error }}</small>
                     {% endfor %}
                 </div>
-
-                <div class="mb-3">
+            </div>
+        
+            <div class="row">
+                <div class="col-md-6 mb-3">
                     {{ form.state.label(class="form-label") }}
                     {{ form.state(class="form-select w-100", id="state") }}
+                    {% for error in form.state.errors %}
+                        <small class="text-danger d-block mt-1">{{ error }}</small>
+                    {% endfor %}
                 </div>
                 
-                <div class="mb-3">
+                <div class="col-md-6 mb-3">
                     {{ form.city.label(class="form-label") }}
                     {{ form.city(class="form-select w-100", id="city") }}
+                    {% for error in form.city.errors %}
+                        <small class="text-danger d-block mt-1">{{ error }}</small>
+                    {% endfor %}
                 </div>
-
-
-                <!-- Password -->
-                <div class="mb-3">
+            </div>
+        
+            <div class="row">
+                <div class="col-md-6 mb-3">
                     {{ form.password.label(class="form-label") }}
                     {{ form.password(class="form-control", placeholder="Enter your password") }}
                     {% for error in form.password.errors %}
-                        <small class="text-danger">{{ error }}</small>
+                        <small class="text-danger d-block mt-1">{{ error }}</small>
                     {% endfor %}
                 </div>
-
-                <!-- Confirm Password -->
-                <div class="mb-4">
+        
+                <div class="col-md-6 mb-4">
                     {{ form.confirm_password.label(class="form-label") }}
                     {{ form.confirm_password(class="form-control", placeholder="Confirm your password") }}
                     {% for error in form.confirm_password.errors %}
-                        <small class="text-danger">{{ error }}</small>
+                        <small class="text-danger d-block mt-1">{{ error }}</small>
                     {% endfor %}
                 </div>
-
-                <!-- Submit -->
-                <div class="d-grid">
-                    {{ form.submit(class="btn btn-primary w-100 rounded-pill") }}
-                </div>
-
-                <p class="text-center mt-3 mb-0">
-                    Already have an account?
-                    <a href="{{url_for('bpuser.login')}}">Login here</a>
-                </p>
-            </form>
+            </div>
+            
+            <div class="d-grid">
+                {{ form.submit(class="btn btn-primary w-100 rounded-pill") }}
+            </div>
+        
+            <p class="text-center mt-3 mb-0">
+                Already have an account?
+                <a href="{{url_for('bpuser.login')}}">Login here</a>
+            </p>
+        </form>
 
         </div>
     </div>

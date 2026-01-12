@@ -127,7 +127,6 @@ def logout():
     # 1. Clear the relevant session data
     # Check if the keys exist before trying to pop them
     if 'useronline' in session:
-        session.clear()
         session.pop('useronline')
 
     # Optional: Clear the entire session if you have no other data you need to preserve

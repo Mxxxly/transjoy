@@ -90,14 +90,7 @@
 <div class="container login-container">
     <div style="max-width: 500px; width: 100%;">
         <div class="admin-card">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 class="mb-0">
-                    <i class="fas fa-user-shield"></i> JoyXpress Admin Login
-                </h2>
-                <a href="{{ url_for('home_page') }}" class="home-link">
-                    <i class="fas fa-home"></i> Home
-                </a>
-            </div>
+
             
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
@@ -111,6 +104,22 @@
                     {% endfor %}
                 {% endif %}
             {% endwith %}
+            <div class=" align-items-center mb-4">
+                <a href="{{ url_for('home_page') }}" class="home-link">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <div class="text-center mb-4">
+                    <a href="{{ url_for('home_page') }}" class="navbar-brand">
+                        <h3 class="m-0 text-center text-primary">
+                            <i class="fas fa-shipping-fast me-1"></i> JoyXpress
+                        </h3>
+                    </a>
+                    <h4 class="text-center mt-3 mb-0 text-dark fw-bold"><i class="fas fa-user-shield"></i> Admin Login </h4>
+                    
+                </div>
+            
+         
+            </div>
             
             <form action="" method="post">
                 {{ adminloginform.csrf_token }}

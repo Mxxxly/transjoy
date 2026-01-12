@@ -36,11 +36,11 @@
                 <div class="col-md-6 mb-5">
                     <h3 class="text-primary mb-4">Quick Links</h3>
                     <div class="d-flex flex-column justify-content-start">
-                        <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Home</a>
-                        <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>About Us</a>
-                        <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Services</a>
-                        <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Track Shipment</a>
-                        <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Contact</a>
+                        <a class="text-white mb-2" href="{{ url_for('home_page') }}"><i class="fa fa-angle-right mr-2"></i>Home</a>
+                        <a class="text-white mb-2" href="{{ url_for('about_page') }}"><i class="fa fa-angle-right mr-2"></i>About Us</a>
+                        <a class="text-white mb-2" href="{{ url_for('service') }}"><i class="fa fa-angle-right mr-2"></i>Services</a>
+                        <a class="text-white mb-2" href="{{url_for('home_page')}}#tracky"><i class="fa fa-angle-right mr-2"></i>Track Shipment</a>
+                        <a class="text-white mb-2" href="{{ url_for('contact') }}"><i class="fa fa-angle-right mr-2"></i>Contact</a>
                         <a class="text-white mb-2" href="{{url_for('bpadmin.admin_login')}}"><i class="fa fa-angle-right mr-2"></i>Admin Login</a>
                         <a class="text-white mb-2" href="{{url_for('bpagent.agent_login')}}"><i class="fa fa-angle-right mr-2"></i>Rider Login </a>
                         <a class="text-white mb-2" href="{{ url_for('bpstaff.staff_login') }}"><i class="fa fa-angle-right mr-2"></i>Staff Login </a>

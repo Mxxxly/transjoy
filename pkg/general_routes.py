@@ -22,6 +22,12 @@ def about_page():
 
     return render_template('about.html',user_id=user_id)
 
+@app.get('/price/')
+def price():
+    user_id= session.get('useronline')
+
+    return render_template('price.html',user_id=user_id)
+
 
 @app.get('/service/')
 def service():
