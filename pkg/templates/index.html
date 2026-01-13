@@ -6,7 +6,7 @@
     <div class="jumbotron jumbotron-fluid mb-5" id="tracky">
         <div class="container text-center py-5">
             <h1 class="text-primary mb-4">Safe & Faster</h1>
-            <h1 class="text-white display-3 mb-5">Logistics Services</h1>
+            <h4 class="text-white display-5 mb-5">Logistics Services</h4>
             <div class="mx-auto" style="width: 100%; max-width: 600px; " >
                 <form method="POST" action="{{ url_for('bpshipment.track_shipment') }}">
                     <input type="hidden" value="{{csrf_token()}}" name="csrf_token">

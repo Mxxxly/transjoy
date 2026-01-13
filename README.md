@@ -2,6 +2,24 @@
 
 JoyXpress is a **full-stack logistics application** built with **Flask** that allows users to send parcels across cities and states using buses, bikes, and other road-based transport. It features real-time parcel tracking, automated agent assignment, and a clean, scalable backend architecture using **divisional blueprints**.  
 
+## Demo / Testing Access
+
+To explore the full functionalities of the app, including the Admin, Agent, and Staff Dashboards, you can use the following credentials:
+
+Admin Login: adminjx
+
+Password: 1234
+
+⚠ For testing purposes only.
+
+Where to find the login links:
+
+Portal Menu: On the website’s top navigation bar, hover over the “Portal” dropdown to see links for Admin Login, Rider Login, and Staff Login.
+
+Footer: The same login links are also available in the footer section of every page for quick access.
+
+Simply click the link and use the credentials above to log in.
+
 
 ##  Features
 
@@ -19,9 +37,11 @@ JoyXpress is a **full-stack logistics application** built with **Flask** that al
 - Availability management by city and vehicle type
 
 ### Admin Features
+For Testing purposes, the Admin Login is: adminjx and password is: 1234
 - Manage users, agents, and shipments
 - Oversee system operations
 - Override shipment statuses if necessary
+
 
 ### Payment Features
 - Integrated payment system for shipments
@@ -30,11 +50,31 @@ JoyXpress is a **full-stack logistics application** built with **Flask** that al
 
 ---
 
-## Architecture
+Architecture
 
-JoyXpress follows a **modular divisional blueprint structure** in Flask:
+JoyXpress follows a modular divisional blueprint structure in Flask:
 
-JoyXpress  is organized using a modular divisional blueprint structure in Flask. The application is grouped into clearly defined packages, each responsible for a specific domain of the system. Authentication handles access for users, agents, and administrators. User modules manage sender-related actions and services. Agent modules control rider and driver operations. Shipment modules handle parcel creation, tracking, and status management. Payment modules are responsible for payment processing and post-payment workflows. The tracking module provides public access for parcel tracking using tracking IDs. Administrative modules oversee system management and supervision. Templates store the HTML views used across the application, while static files contain CSS, JavaScript, and other assets used for styling and interactivity.
+The application is grouped into distinct packages for each domain:
+
+Authentication: Handles access for users, agents, and admins
+
+User Modules: Sender-related actions and services
+
+Agent Modules: Rider and driver operations
+
+Shipment Modules: Parcel creation, tracking, and status management
+
+Payment Modules: Payment processing and post-payment workflows
+
+Tracking Module: Public parcel tracking by ID
+
+Admin Modules: System management and supervision
+
+Templates: HTML views
+
+Static Files: CSS, JS, images, and other assets
+
+Services Layer (services.py): Business logic decoupled from routes
 
 
 **Models include:**
