@@ -33,83 +33,114 @@
 
                         <form method="POST" action="{{ url_for('bpshipment.new_shipment') }}" id="shipmentForm">
                             {{ form.hidden_tag() }}
-
-                            <h5 class="mt-3 mb-3 text-secondary">Receiver Information</h5>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    {{ form.receiver_name.label(class_="font-weight-bold") }}
-                                    {{ form.receiver_name(class_="form-control", placeholder="e.g., Ahmed Tinubu") }}
+                
+                            <div class="mb-5">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mr-3" style="width: 32px; height: 32px;">
+                                        <i class="fa fa-user fa-sm"></i>
+                                    </div>
+                                    <h5 class="text-dark font-weight-bold mb-0">Receiver Information</h5>
                                 </div>
-                                <div class="form-group col-md-6">
-                                    {{ form.receiver_phone.label(class_="font-weight-bold") }}
-                                    {{ form.receiver_phone(class_="form-control", placeholder="e.g., +234 703 985 3440") }}
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="col-md-6">
-                                    <h5 class="mt-3 mb-3 text-secondary">Pickup Location</h5>
-                                    <div class="form-group">
-                                        {{ form.pickup_state.label(class_="font-weight-bold") }}
-                                        {{ form.pickup_state(class_="form-control", id="pickup_state") }}
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="text-muted small font-weight-bold uppercase mb-1">{{ form.receiver_name.label.text }}</label>
+                                        {{ form.receiver_name(class="form-control form-control-lg border-light shadow-sm", style="background-color: #f8f9fa;", placeholder="Enter full name") }}
                                     </div>
-                                    <div class="form-group">
-                                        {{ form.pickup_city.label(class_="font-weight-bold") }}
-                                        {{ form.pickup_city(class_="form-control", id="pickup_city") }}
-                                    </div>
-                                    <div class="form-group">
-                                        {{ form.pickup_address.label(class_="font-weight-bold") }}
-                                        {{ form.pickup_address(class_="form-control", rows="3", placeholder="Street Address, House Number") }}
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <h5 class="mt-3 mb-3 text-secondary">Delivery Location</h5>
-                                    <div class="form-group">
-                                        {{ form.delivery_state.label(class_="font-weight-bold") }}
-                                        {{ form.delivery_state(class_="form-control", id="delivery_state") }}
-                                    </div>
-                                    <div class="form-group">
-                                        {{ form.delivery_city.label(class_="font-weight-bold") }}
-                                        {{ form.delivery_city(class_="form-control", id="delivery_city") }}
-                                    </div>
-                                    <div class="form-group">
-                                        {{ form.delivery_address.label(class_="font-weight-bold") }}
-                                        {{ form.delivery_address(class_="form-control", rows="3", placeholder="Street Address, House Number") }}
+                                    <div class="col-md-6 mb-3">
+                                        <label class="text-muted small font-weight-bold uppercase mb-1">{{ form.receiver_phone.label.text }}</label>
+                                        {{ form.receiver_phone(class="form-control form-control-lg border-light shadow-sm", style="background-color: #f8f9fa;", placeholder="+234...") }}
                                     </div>
                                 </div>
                             </div>
-
-                            <h5 class="mt-3 mb-3 text-secondary">Package & Service</h5>
-                            <div class="form-row align-items-end">
-                                <div class="form-group col-md-4">
-                                    {{ form.package_weight.label(class_="font-weight-bold") }}
-                                    {{ form.package_weight(class_="form-control", placeholder="e.g., 2.5") }}
+                
+                            <div class="row">
+                                <div class="col-lg-6 mb-4">
+                                    <div class="p-3 rounded-lg h-100" style="border: 1px solid #e9ecef;">
+                                        <h6 class="text-primary font-weight-bold mb-3"><i class="fa fa-map-marker-alt mr-2"></i>Pickup Location</h6>
+                                        <div class="row">
+                                            <div class="col-6 mb-3">
+                                                <label class="text-muted small font-weight-bold mb-1">{{ form.pickup_state.label.text }}</label>
+                                                {{ form.pickup_state(class="form-control shadow-none", id="pickup_state") }}
+                                            </div>
+                                            <div class="col-6 mb-3">
+                                                <label class="text-muted small font-weight-bold mb-1">{{ form.pickup_city.label.text }}</label>
+                                                {{ form.pickup_city(class="form-control shadow-none", id="pickup_city") }}
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="text-muted small font-weight-bold mb-1">{{ form.pickup_address.label.text }}</label>
+                                                {{ form.pickup_address(class="form-control shadow-none", rows="2", placeholder="Street address...") }}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group col-md-4">
-                                    {{ form.delivery_type.label(class_="font-weight-bold") }}
-                                    {{ form.delivery_type(class_="form-control") }}
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <button type="button" class="btn btn-warning btn-block py-2" id="calculateBtn">
-                                        <i class="fa fa-calculator mr-1"></i> Calculate Rate
-                                    </button>
+                
+                                <div class="col-lg-6 mb-4">
+                                    <div class="p-3 rounded-lg h-100" style="border: 1px solid #e9ecef;">
+                                        <h6 class="text-success font-weight-bold mb-3"><i class="fa fa-paper-plane mr-2"></i>Delivery Location</h6>
+                                        <div class="row">
+                                            <div class="col-6 mb-3">
+                                                <label class="text-muted small font-weight-bold mb-1">{{ form.delivery_state.label.text }}</label>
+                                                {{ form.delivery_state(class="form-control shadow-none", id="delivery_state") }}
+                                            </div>
+                                            <div class="col-6 mb-3">
+                                                <label class="text-muted small font-weight-bold mb-1">{{ form.delivery_city.label.text }}</label>
+                                                {{ form.delivery_city(class="form-control shadow-none", id="delivery_city") }}
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="text-muted small font-weight-bold mb-1">{{ form.delivery_address.label.text }}</label>
+                                                {{ form.delivery_address(class="form-control shadow-none", rows="2", placeholder="Street address...") }}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            
-                            <div class="alert alert-info mt-3 text-center" role="alert" id="rateDisplay" style="display: none;">
-                                <strong>Calculated Rate:</strong> <span id="finalRate">...</span> (Distance: <span id="finalDistance">...</span> km)
+                
+                            <div class="bg-light p-4 rounded-lg mb-4">
+                                <h5 class="text-dark font-weight-bold mb-3">Package Details</h5>
+                                <div class="row align-items-end">
+                                    <div class="col-md-7 mb-3 mb-md-0">
+                                        <label class="text-muted small font-weight-bold mb-1">{{ form.package_weight.label.text }}</label>
+                                        <div class="input-group">
+                                            {{ form.package_weight(class="form-control border-right-0", id="package_weight", placeholder="Weight") }}
+                                            <div class="input-group-append">
+                                                <span class="input-group-text bg-white text-muted border-left-0">KG</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <button type="button" id="calculateBtn" class="btn btn-warning btn-block font-weight-bold shadow-sm py-2">
+                                            <i class="fa fa-calculator mr-2"></i> Estimate Cost
+                                        </button>
+                                    </div>
+                                </div>
+                
+                                <div class="alert alert-white border shadow-sm mt-4 mb-0 text-center d-none" id="estimateBox" style="border-radius: 12px; border-left: 5px solid #ffc107 !important;">
+                                    <div class="row py-2">
+                                        <div class="col border-right">
+                                            <small class="text-muted d-block">Vehicle</small>
+                                            <span id="estVehicle" class="h6 font-weight-bold mb-0 text-dark">-</span>
+                                        </div>
+                                        <div class="col border-right">
+                                            <small class="text-muted d-block">Distance</small>
+                                            <span class="h6 font-weight-bold mb-0 text-dark"><span id="estDistance">0</span> km</span>
+                                        </div>
+                                        <div class="col">
+                                            <small class="text-muted d-block">Cost</small>
+                                            <span class="h6 font-weight-bold mb-0 text-primary">₦<span id="estAmount">0</span></span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            
-                            {{ form.distance_km(class_="form-control d-none", id="distance_km") }}
-                            {{ form.calculated_amount(class_="form-control d-none", id="calculated_amount") }}
-
-                            <hr class="my-4">
-
-                            <div class="form-group text-center">
-                                {{ form.submit(class_="btn btn-primary w-100 w-md-auto px-md-5") }}
-                            </div>
+                
+                            {{ form.distance_km(id="distance_km", type="hidden") }}
+                            {{ form.calculated_amount(id="calculated_amount", type="hidden") }}
+                
+                            <button type="submit" class="btn btn-primary btn-lg btn-block shadow-lg py-3 font-weight-bold">
+                                Complete Shipment Request
+                            </button>
                         </form>
+                        
+                  
                     </div>
                 </div>
             </div>
@@ -162,67 +193,55 @@
         
         // --- Rate Calculation Placeholder Logic ---
     // --- Rate Calculation Logic (Must match server) ---
-    $('#calculateBtn').click(function() {
-            const weight = parseFloat($('#package_weight').val());
-            const pickupCityId = $('#pickup_city').val();
-            const deliveryCityId = $('#delivery_city').val();
-            const deliveryType = $('#delivery_type').val();
-            
-            // Get State IDs (Needed to check inter/intra state)
-            const pickupStateId = $('#pickup_state').val();
-            const deliveryStateId = $('#delivery_state').val();
 
-            if (weight > 0 && pickupCityId && deliveryCityId && deliveryType) {
-                
-                // 1. DEFINE RATES (MUST MATCH DATABASE SHIPPINGRATE TABLE EXACTLY)
-                const rates = {
-                    // REPLACE THESE VALUES WITH YOUR REAL DATABASE VALUES
-                    'bike': {base: 1500.00, perKg: 50.00, distMult: 1.00},
-                    'van': {base: 3500.00, perKg: 150.00, distMult: 2.50},
-                    'bus': {base: 6000.00, perKg: 250.00, distMult: 4.00},
-                    // Add any other rate tiers you support (e.g., 'truck')
-                };
 
-                const rateTier = rates[deliveryType];
-                
-                if (!rateTier) {
-                     alert(`Rate tier '${deliveryType}' is not defined in the frontend rates.`);
-                     return;
-                }
-                
-                // 2. CALCULATE DISTANCE (MUST MATCH SERVER LOGIC)
-                let distanceKm;
-                
-                if (pickupStateId === deliveryStateId) {
-                    distanceKm = 50.0; // Intra-state assumption (50km)
-                } else {
-                    distanceKm = 450.0; // Inter-state assumption (450km)
-                }
-                
-                // 3. FINAL CALCULATION
-                
-                const baseCharge = rateTier.base;
-                const distanceCharge = distanceKm * rateTier.distMult;
-                const weightCharge = weight * rateTier.perKg;
-
-                let finalAmount = baseCharge + distanceCharge + weightCharge;
-                finalAmount = finalAmount.toFixed(2); // Match Python's round(..., 2)
-
-                // Update the form's hidden fields
-                $('#distance_km').val(distanceKm.toFixed(2));
-                $('#calculated_amount').val(finalAmount);
-
-                // Update the display area
-                $('#finalRate').text('₦' + parseFloat(finalAmount).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-                $('#finalDistance').text(distanceKm.toFixed(0));
-                $('#rateDisplay').slideDown();
-
-            } else {
-                alert('Please ensure weight, cities, and delivery type are selected to calculate the rate.');
-            }
-        });
         // --- End Rate Calculation Logic ---
     });
+
+
+    document.getElementById("calculateBtn").addEventListener("click", function () {
+    const weight = parseFloat(document.getElementById("package_weight").value);
+    const pickupState = document.getElementById("pickup_state").value;
+    const deliveryState = document.getElementById("delivery_state").value;
+
+    if (!weight || weight <= 0 || !pickupState || !deliveryState) {
+        alert("Please fill weight and locations");
+        return;
+    }
+
+    const distanceKm = pickupState === deliveryState ? 50 : 450;
+
+    const VEHICLES = [
+        { type: "bike", max: 15, base: 2000, perKg: 100, perKm: 30 },
+        { type: "van", max: 500, base: 7000, perKg: 80, perKm: 80 },
+        { type: "bus", max: 2000, base: 20000, perKg: 60, perKm: 150 }
+    ];
+
+    let selected;
+
+    for (let v of VEHICLES) {
+        if (weight <= v.max) {
+            selected = v;
+            break;
+        }
+    }
+
+    if (!selected) {
+        alert("Package too heavy. Contact support.");
+        return;
+    }
+
+    const amount = selected.base + (weight * selected.perKg) + (distanceKm * selected.perKm);
+
+    document.getElementById("estVehicle").innerText = selected.type.toUpperCase();
+    document.getElementById("estAmount").innerText = amount.toLocaleString();
+    document.getElementById("estDistance").innerText = distanceKm;
+
+    document.getElementById("distance_km").value = distanceKm;
+    document.getElementById("calculated_amount").value = amount.toFixed(2);
+
+    document.getElementById("estimateBox").classList.remove("d-none");
+});
 </script>
 {%endblock%}
    

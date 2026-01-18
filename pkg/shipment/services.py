@@ -8,50 +8,69 @@ def generate_tracking_number():
     return 'JX' + ''.join(str(random.randint(0, 9)) for _ in range(8))
 
 
-def calculate_rate(pickup_city_id, delivery_city_id, weight_kg, delivery_type):
-    """Calculates the shipment rate based on database rates and a fixed distance."""
-    
-    # 1. Look up Rate Tier
-    rate_tier = ShippingRate.query.filter_by(rate_type=delivery_type).first()
-    
-    if not rate_tier:
-        # This will raise an exception caught by the route, which displays an error flash
-        raise ValueError(f"Rate tier '{delivery_type}' is not configured in the database. (Check Admin setup.)")
 
-    # 2. Determine Distance Factor 
-    
-    # Get City objects
+
+
+def calculate_rate(pickup_city_id, delivery_city_id, weight_kg):
+    if weight_kg <= 0:
+        raise ValueError("Invalid package weight.")
+
     pickup_city = City.query.get(pickup_city_id)
     delivery_city = City.query.get(delivery_city_id)
-    
-    # CRITICAL FIX: Safety Check for City Existence 
-    if not pickup_city:
-        raise ValueError(f"Pickup city ID is invalid. Please select a City.")
-    if not delivery_city:
-        raise ValueError(f"Delivery city ID is invalid. Please select a City.")
-    
-    
-    # Logic: Intra-state vs. Inter-state
+
+    if not pickup_city or not delivery_city:
+        raise ValueError("Invalid pickup or delivery city.")
+
+    # -------- DISTANCE LOGIC --------
     if pickup_city.state_id == delivery_city.state_id:
-        distance_km = 50.0  # Intra-state assumption
+        distance_km = 50      # intra-state
     else:
-        distance_km = 450.0 # Inter-state assumption
+        distance_km = 450     # inter-state
 
-    # 3. Calculation Logic
-    
-    base_charge = rate_tier.base_price
-    
-    # Distance charge: Assumed Distance * Price Per Assumed KM
-    distance_charge = distance_km * rate_tier.distance_multiplier
-    
-    # Weight charge: Weight * Price Per KG
-    weight_charge = weight_kg * rate_tier.price_per_kg
+    # -------- REALISTIC VEHICLE RULES --------
+    VEHICLES = [
+        {
+            "type": "bike",
+            "max_kg": 15,
+            "base": 2000,
+            "per_kg": 100,
+            "per_km": 30
+        },
+        {
+            "type": "van",
+            "max_kg": 500,
+            "base": 7000,
+            "per_kg": 80,
+            "per_km": 80
+        },
+        {
+            "type": "bus",
+            "max_kg": 2000,
+            "base": 20000,
+            "per_kg": 60,
+            "per_km": 150
+        }
+    ]
 
-    # Final Amount (Rounded to two decimal places)
-    calculated_amount = round(base_charge + distance_charge + weight_charge, 2)
+    selected_vehicle = None
 
-    # 4. Return the result
+    for vehicle in VEHICLES:
+        if weight_kg <= vehicle["max_kg"]:
+            selected_vehicle = vehicle
+            break
+
+    if not selected_vehicle:
+        raise ValueError("Package exceeds maximum supported weight.")
+
+    # -------- PRICE CALCULATION --------
+    amount = (
+        selected_vehicle["base"]
+        + (weight_kg * selected_vehicle["per_kg"])
+        + (distance_km * selected_vehicle["per_km"])
+    )
+
     return {
-        'distance_km': distance_km,
-        'calculated_amount': calculated_amount
+        "vehicle_type": selected_vehicle["type"],
+        "distance_km": distance_km,
+        "calculated_amount": round(amount, 2)
     }

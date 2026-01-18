@@ -1,7 +1,7 @@
 # pkg/shipment/form.py
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, FloatField, SelectField, SubmitField,IntegerField
+from wtforms import StringField, TextAreaField, FloatField, SelectField, SubmitField,IntegerField,HiddenField
 from wtforms.validators import DataRequired, Length, NumberRange, Optional,ValidationError
 from pkg.models import State, City # Ensure this import path is correct
 
@@ -34,15 +34,13 @@ class NewShipmentForm(FlaskForm):
 
     # Package Details (remain the same)
     package_weight = FloatField("Package Weight (kg)", validators=[DataRequired(), NumberRange(min=0.1, message="Weight must be positive.")])
-    delivery_type = SelectField("Delivery Type", choices=[
-        ('bike', 'Motorcycle/Bike (Quick & Small)'),
-        ('van', 'Van/Bus (Standard & Medium)'),
-        ('truck', 'Truck (Large/Heavy)')
-    ], validators=[DataRequired()])
+    delivery_type = HiddenField()  # hidden, auto-set by JS/backend
+    distance_km = HiddenField()
+    calculated_amount = HiddenField()
     
     # Hidden fields for calculated data (remain the same)
-    distance_km = FloatField("Distance (km)", validators=[Optional()])
-    calculated_amount = FloatField("Calculated Amount", validators=[Optional()])
+    # distance_km = FloatField("Distance (km)", validators=[Optional()])
+    # calculated_amount = FloatField("Calculated Amount", validators=[Optional()])
 
     submit = SubmitField("Confirm & Proceed to Payment")
 

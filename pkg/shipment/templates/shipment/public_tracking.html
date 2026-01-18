@@ -773,9 +773,20 @@
                     
                         <div class="timeline-step {% if status in ['paid', 'picked up', 'delivered'] %}active{% endif %}">
                             <div class="step-icon">
-                                <i class="fas fa-cog {% if status in ['paid', 'picked up'] %}fa-spin{% endif %}"></i>
+                                {% if status == 'picked up' or status == 'delivered' %}
+                                    <i class="fas fa-box"></i>
+                                {% else %}
+                                    <i class="fas fa-cog {% if status == 'paid' %}fa-spin{% endif %}"></i>
+                                {% endif %}
                             </div>
-                            <p>Processing</p>
+                            
+                            <p>
+                                {% if status in ['picked up', 'delivered'] %}
+                                    Picked Up
+                                {% else %}
+                                    Processing
+                                {% endif %}
+                            </p>
                         </div>
                     
                         <div class="timeline-step {% if status in ['picked up', 'delivered'] %}active{% endif %}">

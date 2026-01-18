@@ -8,96 +8,78 @@ from pkg.models import State, City, User, db, Shipment, ShippingRate
 from .services import calculate_rate, generate_tracking_number 
 
 
+
 @shipmentobj.route('/new/', methods=['GET', 'POST'])
 def new_shipment():
-    """Handles the creation and saving of a new shipment order."""
-    
     user_id = session.get('useronline')
     u = User.query.get(user_id) if user_id else None
-    shipments = Shipment.query.filter_by(user_id=user_id).order_by(Shipment.created_at.desc()).all()
-
 
     if not u:
-        flash('You must be logged in to create a new shipment.', 'warning')
+        flash('You must be logged in to create a shipment.', 'warning')
         return redirect(url_for('bpuser.login'))
 
     form = NewShipmentForm()
-    
-    if form.validate_on_submit():
-        
 
+    if form.validate_on_submit():
         try:
-            rates = calculate_rate(
+            rate_data = calculate_rate(
                 pickup_city_id=form.pickup_city.data,
                 delivery_city_id=form.delivery_city.data,
-                weight_kg=form.package_weight.data,
-                delivery_type=form.delivery_type.data
+                weight_kg=form.package_weight.data
             )
-            distance = rates['distance_km']
-            amount = rates['calculated_amount']
-            
         except ValueError as e:
-            # Catches errors from calculate_rate (e.g., missing city, missing rate tier)
-            flash(f'Error calculating rate: {e}', 'danger')
-            return render_template('shipment/new_shipment.html', form=form, u=u, title='Create New Shipment')
-        
-        # Optional: Additional check for weight/type if form validation is weak
-        if distance is None or amount is None:
-             flash('A calculation error prevented order creation. Check inputs.', 'danger')
-             return render_template('shipment/new_shipment.html', form=form, u=u, title='Create New Shipment')
+            flash(str(e), 'danger')
+            return render_template('shipment/new_shipment.html', form=form, u=u)
 
+        pickup_city = City.query.get(form.pickup_city.data)
+        delivery_city = City.query.get(form.delivery_city.data)
+        pickup_state = State.query.get(form.pickup_state.data)
+        delivery_state = State.query.get(form.delivery_state.data)
 
-        # --- SHIPMENT DATABASE CREATION ---
-        tracking_id = generate_tracking_number()
-        
-        # Retrieve City/State Names (Uses form IDs, which should be safe)
-        # Add safety checks here to prevent crash if City.query.get() returns None
-        pickup_city_obj = City.query.get(form.pickup_city.data)
-        delivery_city_obj = City.query.get(form.delivery_city.data)
-        pickup_state_obj = State.query.get(form.pickup_state.data)
-        delivery_state_obj = State.query.get(form.delivery_state.data)
-        
-        if not all([pickup_city_obj, delivery_city_obj, pickup_state_obj, delivery_state_obj]):
-             flash('One or more location fields contained an invalid value. Please re-select.', 'danger')
-             return render_template('shipment/new_shipment.html', form=form, u=u, title='Create New Shipment')
-
-        new_shipment = Shipment(
-            tracking_number=tracking_id,
+        shipment = Shipment(
+            tracking_number=generate_tracking_number(),
             user_id=u.id,
             receiver_name=form.receiver_name.data,
             receiver_phone=form.receiver_phone.data,
             pickup_address=form.pickup_address.data,
-            pickup_city=pickup_city_obj.name,
-            pickup_state=pickup_state_obj.name,
+            pickup_city=pickup_city.name,
+            pickup_state=pickup_state.name,
             delivery_address=form.delivery_address.data,
-            delivery_city=delivery_city_obj.name,
-            delivery_state=delivery_state_obj.name,
+            delivery_city=delivery_city.name,
+            delivery_state=delivery_state.name,
             package_weight=form.package_weight.data,
-            delivery_type=form.delivery_type.data,
-            distance_km=distance, # Store the calculated distance factor
-            calculated_amount=amount,
+            delivery_type=rate_data["vehicle_type"],  # AUTO
+            distance_km=rate_data["distance_km"],
+            calculated_amount=rate_data["calculated_amount"],
             status='pending'
         )
-        
-        try:
-            db.session.add(new_shipment)
-            db.session.commit()
-            
-            flash(f'Shipment {tracking_id} created successfully. Proceed to payment.', 'success')
-            return redirect(url_for('bpshipment.confirmation', shipment_id=new_shipment.id))
-            
-        except Exception as e:
-            db.session.rollback()
-            flash(f'An error occurred while saving the shipment: {str(e)}', 'danger')
-            return redirect(url_for('bpshipment.new_shipment')) 
 
-    # GET request or form validation failed
+        db.session.add(shipment)
+        db.session.commit()
+
+        flash('Shipment created. Proceed to payment.', 'success')
+        return redirect(url_for('bpshipment.confirmation', shipment_id=shipment.id))
+
     return render_template(
-        'shipment/new_shipment.html', 
-        form=form, 
+        'shipment/new_shipment.html',
+        form=form,
         u=u,
-        title='Create New Shipment',shipments=shipments
+        title='Create Shipment'
     )
+
+
+# API endpoint for frontend cost calculation
+@shipmentobj.route('/api/calculate_rate', methods=['POST'])
+def api_calculate_rate():
+    try:
+        pickup_city_id = int(request.form.get('pickup_city_id'))
+        delivery_city_id = int(request.form.get('delivery_city_id'))
+        weight_kg = float(request.form.get('weight_kg'))
+
+        result = calculate_rate(pickup_city_id, delivery_city_id, weight_kg)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'error': str(e)})
 
 
 @shipmentobj.route('/api/cities/<int:state_id>')
